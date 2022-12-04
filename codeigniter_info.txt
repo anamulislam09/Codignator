@@ -1,0 +1,7 @@
+ 				<------CODEIGNITER------->
+
+1. create app :--composer create-project codeigniter4/appstarter project-root.
+2. RUN PROJECT:-- php spark serve.
+3. controller create:--php spark make:controller pages
+4. create controller:--php spark make:controller UserCrud
+5. create model:-php spark make:model UserCrud
