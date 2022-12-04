@@ -44,14 +44,14 @@
                         <td><?php echo $user['name']; ?></td>
                         <td><?php echo $user['email']; ?></td>
                         <td>
-                            <a href="/users" class="btn btn-primary">Edit</a>
-                            <a href="users/delete" class="btn btn-danger">Delete</a>
+                            <a href="<?php echo base_url("/users/edit/" . $user["id"]) ?>" class="btn btn-primary">Edit</a>
+                            <a href="<?php echo base_url("users/delete/" . $user["id"]) ?>" class="btn btn-danger">Delete</a>
                         </td>
                     </tr>
                 </tbody>
             <?php endforeach; ?>
         </table>
-        <a href="/users" class="btn btn-primary">All Users</a>|
+        <a href="/users" class="btn btn-primary">All Users</a>
         <a href="users/add" class="btn btn-primary">New Users</a>
 
     </div>

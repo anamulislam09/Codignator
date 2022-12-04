@@ -14,12 +14,21 @@
 <body>
     <h1>User Entery Form</h1>
     <div class="container">
+        <?php $validation = \Config\Services::validation(); ?>
 
         <form action="<?php echo site_url('users/submit') ?>" method="post">
             <label for="">Name: </label>
             <input type="text" name="name"><br>
+            <?php if ($validation->getError('name')) : ?>
+                <p><?= $error = $validation->getError('name'); ?></p>
+            <?php endif ?>
+
             <label for="">Email: </label>
             <input type="email" name="email"><br>
+            <?php if ($validation->getError('email')) : ?>
+                <p><?= $error = $validation->getError('email'); ?></p>
+            <?php endif ?>
+
             <input type="submit" name="submit" class="btn btn-info mt3" value="Submit"><br>
         </form>
 

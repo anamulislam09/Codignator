@@ -42,9 +42,11 @@ $routes->get('/users', 'UserCrud::index');
 $routes->get('/users/add', 'UserCrud::create');
 $routes->post('/users/submit', 'UserCrud::store');
 $routes->get('/users/delete/(:num)', 'UserCrud::delete/$1');
+$routes->get('/users/edit/(:num)', 'UserCrud::edit/$1');
+$routes->post('/users/update', 'UserCrud::update');
 
 
-/*
+/*.
  * --------------------------------------------------------------------
  * Additional Routing
  * --------------------------------------------------------------------
