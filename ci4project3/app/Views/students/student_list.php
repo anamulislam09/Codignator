@@ -10,10 +10,12 @@ echo view('includes/navbar');
     <table class="table table-striped">
         <thead>
             <tr>
+                <th>Id</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Address</th>
                 <th>Phone</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -22,16 +24,23 @@ echo view('includes/navbar');
 
 
                 <tr>
+                    <td><?php echo $student['id'] ?></td>
                     <td><?php echo $student['name'] ?></td>
                     <td><?php echo $student['email'] ?></td>
                     <td><?php echo $student['address'] ?></td>
                     <td><?php echo $student['phone'] ?></td>
+                    <td>
+                        <a href="/student/edit/<?= $student['id'] ?>" class="btn btn-info">Edit</a>
+                        <a href="/student/delete/<?= $student['id'] ?>" class="btn btn-danger">Delete</a>
+                    </td>
                 </tr>
 
             <?php } ?>
 
         </tbody>
     </table>
+
+    <a href="/student/new" class="btn btn-info">Add New</a>
 
 </div>
 

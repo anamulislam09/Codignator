@@ -5,7 +5,9 @@ echo view('includes/navbar');
 
 ?>
 
-<h1>This is About Page</h1>
+<div class="container">
+    <h1 class="mt-5">This is About Page</h1>
+</div>
 
 <?php
 echo view('includes/footer');

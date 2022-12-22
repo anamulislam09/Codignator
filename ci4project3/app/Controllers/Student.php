@@ -17,6 +17,7 @@ class Student extends ResourceController
     {
         $modeldata = new StudentModel();
         $data['students'] = $modeldata->findAll();
+        $data['title'] = "All Students";
         // print_r($data);
         return view("students/student_list", $data);
     }
@@ -38,7 +39,8 @@ class Student extends ResourceController
      */
     public function new()
     {
-        //
+        $data['title'] = "student sntry";
+        return view("students/add_student", $data);
     }
 
     /**
@@ -48,7 +50,21 @@ class Student extends ResourceController
      */
     public function create()
     {
-        //
+        $model = new StudentModel();
+        // $data['name'] = $this->request->getPost('name');
+        // $data['email'] = $this->request->getPost('email');
+        // $data['phone'] = $this->request->getPost('phone');
+        // $data['address'] = $this->request->getPost('address');
+        $data = $this->request->getPost();
+
+        if ($model->save($data)) {
+            return redirect()->to('student');
+            // return redirect()->back();
+
+        }
+
+
+        // return view("students/student_list", $data);
     }
 
     /**
@@ -58,7 +74,9 @@ class Student extends ResourceController
      */
     public function edit($id = null)
     {
-        //
+        $model = new StudentModel();
+        $data['student'] = $model->find($id);
+        return view("students/student_edit", $data);
     }
 
     /**
@@ -67,8 +85,15 @@ class Student extends ResourceController
      * @return mixed
      */
     public function update($id = null)
+
     {
-        //
+        $model = new StudentModel();
+        $data = $this->request->getPost();
+        // print_r($data);
+
+        if ($model->update($id, $data)) {
+            return redirect()->to("student");
+        }
     }
 
     /**
@@ -78,6 +103,8 @@ class Student extends ResourceController
      */
     public function delete($id = null)
     {
-        //
+        $model = new StudentModel();
+        $model->delete($id);
+        return redirect()->to('student');
     }
 }

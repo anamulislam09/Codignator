@@ -11,14 +11,14 @@
                 <a class="nav-link <?= ($page == 'index.php') ? 'active' : ''; ?>" href="/">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link <?= ($page == 'about') ? 'active' : ''; ?>" href="about">About</a>
+                <a class="nav-link <?= ($page == 'about') ? 'active' : ''; ?>" href="/about">About</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link <?= ($page == 'contact') ? 'active' : ''; ?>" href="contact">Contact</a>
+                <a class="nav-link <?= ($page == 'contact') ? 'active' : ''; ?>" href="/contact">Contact</a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link <?= ($page == 'students') ? 'active' : ''; ?>" href="students">Student List</a>
+                <a class="nav-link <?= ($page == 'student') ? 'active' : ''; ?>" href="/student">Student</a>
             </li>
 
         </ul>

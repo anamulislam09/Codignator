@@ -4,4 +4,10 @@
 2. RUN PROJECT:-- php spark serve.
 3. controller create:--php spark make:controller pages
 4. create controller:--php spark make:controller UserCrud
-5. create model:-php spark make:model UserCrud
+5.create restful controller:php spark make:controller student --restful
+6. create model:-php spark make:model UserCrud
+7.create migration:php spark make:migration Student
+8.crteate table:php spark migrate
+9.Refresh table:php spark migrate:refresh
+10.Create encryption.key:php spark key:generate
+
