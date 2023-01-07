@@ -1,0 +1,270 @@
+<-----------------Create Multiauth-------------------->
+
+1.create app:composer create-project codeigniter4/appstarter ci4-multiauth
+2.create database:ci4-multiauth
+3.connection database in env file
+4.create model;--php spark make:model User --suffix
+5.Create seeder:--php spark make:seeder User --suffix
+6.Insert data by seeder/Run Seeder:--php spark db:seed userseeder
+7.Create controller:--
+	user:php spark make:controller user --suffix
+	admin:php spark make:controller admin --suffix
+	editor:php spark make:controller editor --suffix
+
+8.go to app/routes and putting thid code:--
+//...
+
+$routes->match(['get', 'post'], 'login', 'UserController::login', ["filter" => "noauth"]);
+// Admin routes
+$routes->group("admin", ["filter" => "auth"], function ($routes) {
+    $routes->get("/", "AdminController::index");
+});
+// Editor routes
+$routes->group("editor", ["filter" => "auth"], function ($routes) {
+    $routes->get("/", "EditorController::index");
+});
+$routes->get('logout', 'UserController::logout');
+
+//...
+
+9.create filter auth:--php spark make:filter Auth
+
+10.go to filter/auth.php and poutting this code:--
+ public function before(RequestInterface $request, $arguments = null)
+    {
+        
+        if (!session()->get('isLoggedIn')) {
+            return redirect()->to(site_url('login'));
+        }
+    }
+
+11.another filter Noauth:--php spark make:filter Noauth
+12.go to filter/Noauth.php and poutting this code:--
+public function before(RequestInterface $request, $arguments = null)
+    {
+        if (session()->get('isLoggedIn')) {
+
+			if (session()->get('role') == "admin") {
+				return redirect()->to(base_url('admin'));
+			}
+
+			if (session()->get('role') == "editor") {
+				return redirect()->to(base_url('editor'));
+			}
+        }
+
+
+    }
+
+13.go to  /app/Config/Filters.php and putting this code :
+	"auth" => Auth::class,
+        "noauth" => Noauth::class,
+
+14.cerate userrules validation:--php spark make:validation Userrules
+this file cerate under app/validation/Userrules.php
+
+15.Open up the file /app/Config/Validation.php and putting this code:--Userrules::class, // here we have registered
+
+16.go to BaseController and putting this code:--
+protected $helpers = [‘url’];
+
+16.Go to /app/Controllers/UserController.php and putting this code:--
+ public function login()
+    {
+        $data = [];
+
+        if ($this->request->getMethod() == 'post') {
+
+            $rules = [
+                'email' => 'required|min_length[6]|max_length[50]|valid_email',
+                'password' => 'required|min_length[8]|max_length[255]|validateUser[email,password]',
+            ];
+
+            $errors = [
+                'password' => [
+                    'validateUser' => "Email or Password didn't match",
+                ],
+            ];
+
+            if (!$this->validate($rules, $errors)) {
+
+                return view('login', [
+                    "validation" => $this->validator,
+                ]);
+
+            } else {
+                $model = new UserModel();
+
+                $user = $model->where('email', $this->request->getVar('email'))
+                    ->first();
+
+                // Stroing session values
+                $this->setUserSession($user);
+
+                // Redirecting to dashboard after login
+                if($user['role'] == "admin"){
+
+                    return redirect()->to(base_url('admin'));
+
+                }elseif($user['role'] == "editor"){
+
+                    return redirect()->to(base_url('editor'));
+                }
+            }
+        }
+        return view('login');
+    }
+
+    private function setUserSession($user)
+    {
+        $data = [
+            'id' => $user['id'],
+            'name' => $user['name'],
+            'phone_no' => $user['phone_no'],
+            'email' => $user['email'],
+            'isLoggedIn' => true,
+            "role" => $user['role'],
+        ];
+
+        session()->set($data);
+        return true;
+    }
+
+    public function logout()
+    {
+        session()->destroy();
+        return redirect()->to('login');
+    }
+
+17.go to /app/Controllers/AdminController.php and putting this code:--
+
+<?php
+
+namespace App\Controllers;
+
+use App\Controllers\BaseController;
+
+class AdminController extends BaseController
+{
+    public function __construct()
+    {
+        if (session()->get('role') != "admin") {
+            echo 'Access denied';
+            exit;
+        }
+    }
+    public function index()
+    {
+        return view("admin/dashboard");
+    }
+}
+
+18.go to /app/Controllers/EditController.php and putting this code:--
+<?php
+
+namespace App\Controllers;
+
+use App\Controllers\BaseController;
+
+class EditorController extends BaseController
+{
+    public function __construct()
+    {
+        if (session()->get('role') != "editor") {
+            echo 'Access denied';
+            exit;
+        }
+    }
+    public function index()
+    {
+        return view("editor/dashboard");
+    }
+} 
+
+19.go to /app/Controllers/EditController.php and putting this code:--
+<?php
+
+namespace App\Controllers;
+
+use App\Controllers\BaseController;
+
+class EditorController extends BaseController
+{
+    public function __construct()
+    {
+        if (session()->get('role') != "editor") {
+            echo 'Access denied';
+            exit;
+        }
+    }
+    public function index()
+    {
+        return view("editor/dashboard");
+    }
+}
+
+20.create app.php under /app/Views/layouts/app.php 
+21.create login.php under app/views:--
+putting login form
+
+22.Create dashboard.php inside /app/Views/admin and putting this code
+
+<?= $this->extend("layouts/app") ?>
+
+<?= $this->section("body") ?>
+
+<div class="container" style="margin-top:20px;">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Admin Dashboard</div>
+                <div class="panel-body">
+                    <h1>Hello, <?= session()->get('name') ?></h1>
+                    <h3><a href="<?= site_url('logout') ?>">Logout</a></h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?= $this->endSection() ?>
+
+23.Create dashboard.php inside /app/Views/editor and puttinf this code:--
+<?= $this->extend("layouts/app") ?>
+
+<?= $this->section("body") ?>
+
+<div class="container" style="margin-top:20px;">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Editor Dashboard</div>
+                <div class="panel-body">
+                    <h1>Hello, <?= session()->get('name') ?></h1>
+                    <h3><a href="<?= site_url('logout') ?>">Logout</a></h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?= $this->endSection() ?>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
