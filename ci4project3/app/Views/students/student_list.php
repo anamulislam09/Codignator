@@ -21,19 +21,21 @@ echo view('includes/navbar');
         <tbody>
 
             <?php
-            $count = 0;
+
             foreach ($students as $student) { ?>
-                $count = count=1;
+
 
                 <tr>
-                    <td><?php echo $count ?></td>
+
+                    <td><?php echo $student['id'] ?></td>
                     <td><?php echo $student['name'] ?></td>
                     <td><?php echo $student['email'] ?></td>
                     <td><?php echo $student['address'] ?></td>
-                    <td><?php echo $student['price'] ?></td>
+                    <td><?php echo $student['phone'] ?></td>
+
                     <td>
-                        <a href="/student/edit/<?= $student['id'] ?>" class="btn btn-info">Edit</a>
-                        <a href="/student/delete/<?= $student['id'] ?>" class="btn btn-danger">Delete</a>
+                        <a href="<?= base_url() ?>/student/edit/<?= $student['id'] ?>" class="btn btn-info">Edit</a>
+                        <a href="<?= base_url() ?>/student/delete/<?= $student['id'] ?>" class="btn btn-danger">Delete</a>
                     </td>
                 </tr>
 
@@ -42,7 +44,7 @@ echo view('includes/navbar');
         </tbody>
     </table>
 
-    <a href="/student/new" class="btn btn-info">Add New</a>
+    <a href="<?= base_url() ?>/student/new" class="btn btn-info">Add New</a>
 
 </div>
 

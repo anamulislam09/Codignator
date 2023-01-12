@@ -1,0 +1,5 @@
+<=================Build in Codeniter====================>
+1.public folder move to root file
+2.Go to index.php and change to code from require FCPATH . '../app/Config/Paths.php';to require FCPATH . './app/Config/Paths.php';
+3.Go to App.php and change path:public $baseURL = 'http://localhost/anamul/Codignator/ci4project3/';
+4.Go to navbar and putting <?= base_url()?>/path

@@ -9,7 +9,7 @@ echo view('includes/navbar');
 <div class="container mt-3">
     <h2>Registration Form</h2>
     <hr>
-    <form method="post" action="/student/create" <?= csrf_field(); ?> <div class="mb-3 mt-3">
+    <form method="post" action="<?= base_url() ?>/student/create" <?= csrf_field(); ?> <div class="mb-3 mt-3">
         <label for="name">Name:</label>
         <input type="text" class="form-control" id="name" placeholder="Enter name" name="name">
 </div>

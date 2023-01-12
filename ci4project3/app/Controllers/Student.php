@@ -51,10 +51,10 @@ class Student extends ResourceController
     public function create()
     {
         $model = new StudentModel();
-        // $data['name'] = $this->request->getPost('name');
-        // $data['email'] = $this->request->getPost('email');
-        // $data['phone'] = $this->request->getPost('phone');
-        // $data['address'] = $this->request->getPost('address');
+        $data['name'] = $this->request->getPost('name');
+        $data['email'] = $this->request->getPost('email');
+        $data['phone'] = $this->request->getPost('phone');
+        $data['address'] = $this->request->getPost('address');
         $data = $this->request->getPost();
 
         if ($model->save($data)) {

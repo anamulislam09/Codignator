@@ -9,7 +9,7 @@ echo view('includes/navbar');
 <div class="container mt-3">
     <h2>Edit Form</h2>
     <hr>
-    <form method="post" action="/student/update/<?= $student['id'] ?>">
+    <form method="post" action="<?= base_url() ?>/student/update/<?= $student['id'] ?>">
         <div class="mb-3 mt-3">
             <label for="name">Name:</label>
             <input type="text" class="form-control" value="<?php echo $student['name'] ?>" id="name" placeholder="Enter name" name="name">
